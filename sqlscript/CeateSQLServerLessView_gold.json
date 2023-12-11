@@ -1,0 +1,17 @@
+{
+	"name": "CeateSQLServerLessView_gold",
+	"properties": {
+		"content": {
+			"query": "USE gold_db\nGO\n\nCREATE OR ALTER PROCEDURE CreateSQLServerLessView_gold @ViewName NVARCHAR(100)\nAS \nBEGIN\n    DECLARE @statement NVARCHAR(MAX)\n\n    SET @statement = N'CREATE OR ALTER VIEW ' + QUOTENAME(@ViewName) + N' AS \n        SELECT *\n        FROM OPENROWSET(\n            BULK ''https://datalakework.dfs.core.windows.net/gold/SalesLT/' + @ViewName + '/'',\n            FORMAT = ''DELTA''\n        ) AS [result]'\n\n    EXEC (@statement)\nEND \nGO\n",
+			"metadata": {
+				"language": "sql"
+			},
+			"currentConnection": {
+				"databaseName": "gold_db",
+				"poolName": "Built-in"
+			},
+			"resultLimit": 5000
+		},
+		"type": "SqlQuery"
+	}
+}
